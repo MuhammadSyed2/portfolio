@@ -4,7 +4,26 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>muhammad-portfolio</title>
+    <meta name="theme-color" content="#0a1c18" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem('theme') === 'light' ? 'light' : 'dark'
+      } catch (e) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
+    <title>Muhammad Syed | Full stack developer</title>
+    <meta
+      name="description"
+      content="Muhammad Syed is a full stack developer in Dhaka building web apps, APIs and production platforms for fintech, e-commerce and enterprise with Laravel, Spring Boot and React."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400..800&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>
