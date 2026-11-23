@@ -1,13 +1,35 @@
 import Console from './components/Console'
+import CopyEmail from './components/CopyEmail'
 import ThemeToggle from './components/ThemeToggle'
-import { clientWork, jobs, person, products, stack } from './data'
+import {
+  certifications,
+  clientWork,
+  education,
+  jobs,
+  person,
+  products,
+  publications,
+  stack,
+} from './data'
 
 const external = { target: '_blank', rel: 'noreferrer noopener' } as const
+
+const mailto = `mailto:${person.email}?subject=${encodeURIComponent('Hello from your portfolio')}`
+const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(person.email)}`
+
+const nav = [
+  { href: '#projects', label: 'Projects' },
+  { href: '#clients', label: 'Clients' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#stack', label: 'Stack' },
+  { href: '#education', label: 'Education' },
+  { href: '#contact', label: 'Contact' },
+]
 
 export default function App() {
   return (
     <>
-      <a className="skip" href="#work">
+      <a className="skip" href="#projects">
         Skip to projects
       </a>
 
@@ -18,10 +40,11 @@ export default function App() {
           </a>
           <div className="top-right">
             <nav aria-label="Primary">
-              <a href="#work">Work</a>
-              <a href="#experience">Experience</a>
-              <a href="#stack">Stack</a>
-              <a href="#contact">Contact</a>
+              {nav.map((n) => (
+                <a key={n.href} href={n.href}>
+                  {n.label}
+                </a>
+              ))}
             </nav>
             <ThemeToggle />
           </div>
@@ -38,7 +61,7 @@ export default function App() {
               and React, and taken projects from architecture to production.
             </p>
             <div className="actions">
-              <a className="btn" href={`mailto:${person.email}`}>
+              <a className="btn" href={mailto}>
                 Email me
               </a>
               <a className="link" href={person.github} {...external}>
@@ -52,104 +75,155 @@ export default function App() {
           <Console />
         </section>
 
-        <section className="section" id="work" aria-labelledby="work-h">
+        <section className="section" id="projects" aria-labelledby="projects-h">
           <div className="wrap split">
-            <h2 id="work-h">Selected work</h2>
-            <div>
-              <h3 className="group">Live products</h3>
-              <ul className="rows">
-                {products.map((p) => (
-                  <li className="row" key={p.name}>
-                    <div className="row-head">
-                      <h4>{p.name}</h4>
-                      <a href={p.href} {...external}>
-                        {p.hrefLabel}
-                      </a>
-                    </div>
-                    <p>{p.summary}</p>
-                    <p className="meta">{p.stack}</p>
-                  </li>
-                ))}
-              </ul>
-
-              <h3 className="group">Client and enterprise projects</h3>
-              <dl className="work-list">
-                {clientWork.map((w) => (
-                  <div key={w.name}>
-                    <dt>
-                      {w.name}
-                      <span>{w.where}</span>
-                    </dt>
-                    <dd>{w.summary}</dd>
-                  </div>
-                ))}
-              </dl>
+            <div className="section-head">
+              <h2 id="projects-h">Live projects</h2>
+              <p>Products I build and run in production today.</p>
             </div>
+            <ul className="rows">
+              {products.map((p) => (
+                <li className="row" key={p.name}>
+                  <div className="row-head">
+                    <h3>{p.name}</h3>
+                    <a href={p.href} {...external}>
+                      {p.hrefLabel}
+                    </a>
+                  </div>
+                  <p className="headline">{p.headline}</p>
+                  <p>{p.summary}</p>
+                  <p className="meta">{p.stack}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="section" id="clients" aria-labelledby="clients-h">
+          <div className="wrap split">
+            <div className="section-head">
+              <h2 id="clients-h">Client and enterprise projects</h2>
+              <p>Systems delivered for clients and employers.</p>
+            </div>
+            <dl className="work-list">
+              {clientWork.map((w) => (
+                <div key={w.name}>
+                  <dt>
+                    {w.name}
+                    <span>{w.where}</span>
+                  </dt>
+                  <dd>
+                    <strong className="headline">{w.headline}</strong>
+                    {w.summary}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 
         <section className="section" id="experience" aria-labelledby="exp-h">
           <div className="wrap split">
-            <h2 id="exp-h">Experience</h2>
-            <ol className="timeline">
-              {jobs.map((j) => (
-                <li key={j.company}>
-                  <p className="period">{j.period}</p>
-                  <h3>
-                    {j.role}, {j.company}
-                  </h3>
-                  <ul>
-                    {j.points.map((pt) => (
-                      <li key={pt}>{pt}</li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
+            <div className="section-head">
+              <h2 id="exp-h">Experience</h2>
+              <p>{jobs.length} roles, most recent first.</p>
+            </div>
+            <ol className="jobs">
+              {jobs.map((j) => {
+                const projects = j.hideProjectTags
+                  ? []
+                  : clientWork.filter((w) => w.where === j.company)
+                return (
+                  <li className="job" key={j.company}>
+                    <div className="job-head">
+                      <h3>{j.company}</h3>
+                      <p className="period">{j.period}</p>
+                    </div>
+                    <p className="job-role">{j.role}</p>
+                    <ul className="job-points">
+                      {j.points.map((pt) => (
+                        <li key={pt}>{pt}</li>
+                      ))}
+                    </ul>
+                    {projects.length > 0 && (
+                      <ul className="job-projects" aria-label={`Projects at ${j.company}`}>
+                        {projects.map((p) => (
+                          <li key={p.name}>{p.name}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                )
+              })}
             </ol>
           </div>
         </section>
 
         <section className="section" id="stack" aria-labelledby="stack-h">
           <div className="wrap split">
-            <h2 id="stack-h">Stack</h2>
+            <div className="section-head">
+              <h2 id="stack-h">Stack</h2>
+              <p>Tools I use to design, build and ship.</p>
+            </div>
+            <div className="stack-grid">
+              {stack.map((g) => (
+                <div className="stack-card" key={g.label}>
+                  <h3>{g.label}</h3>
+                  <p>{g.note}</p>
+                  <ul>
+                    {g.items.map((i) => (
+                      <li key={i}>{i}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section" id="education" aria-labelledby="edu-h">
+          <div className="wrap split">
+            <div className="section-head">
+              <h2 id="edu-h">Education</h2>
+            </div>
             <div>
-              <dl className="stack">
-                {stack.map((g) => (
-                  <div key={g.label}>
-                    <dt>{g.label}</dt>
-                    <dd>
+              <ul className="edu-list">
+                {education.map((e) => (
+                  <li key={e.degree + e.school}>
+                    <p className="period">{e.period}</p>
+                    <h3>{e.degree}</h3>
+                    <p className="edu-school">{e.school}</p>
+                    {e.details && (
                       <ul>
-                        {g.items.map((i) => (
-                          <li key={i}>{i}</li>
+                        {e.details.map((d) => (
+                          <li key={d}>{d}</li>
                         ))}
                       </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              <dl className="also">
+                {certifications.map((c) => (
+                  <div key={c.name}>
+                    <dt>Certification</dt>
+                    <dd>
+                      {c.name}, {c.issuer}
                     </dd>
                   </div>
                 ))}
-              </dl>
-
-              <dl className="also">
-                <div>
-                  <dt>Education</dt>
-                  <dd>B.Sc. in Computer Science &amp; Engineering, North South University, 2022</dd>
-                </div>
-                <div>
-                  <dt>Certification</dt>
-                  <dd>Data Analytics Hire and Train Program, ADN Diginet Limited and University of Dhaka (IIT)</dd>
-                </div>
-                <div>
-                  <dt>Publication</dt>
-                  <dd>
-                    <a
-                      href="https://link.springer.com/chapter/10.1007/978-981-16-6369-7_21"
-                      {...external}
-                    >
-                      Detecting Urbanization Changes in Tangail District Using Machine Learning and Remote
-                      Sensing
-                    </a>
-                    , Springer
-                  </dd>
-                </div>
+                {publications.map((p) => (
+                  <div key={p.title}>
+                    <dt>Publication</dt>
+                    <dd>
+                      <a href={p.href} {...external}>
+                        {p.title}
+                      </a>
+                      , {p.venue}
+                    </dd>
+                  </div>
+                ))}
               </dl>
             </div>
           </div>
@@ -159,9 +233,15 @@ export default function App() {
       <footer className="contact" id="contact">
         <div className="wrap">
           <h2>Have something to build?</h2>
-          <a className="mail" href={`mailto:${person.email}`}>
+          <a className="mail" href={mailto}>
             {person.email}
           </a>
+          <div className="mail-tools">
+            <CopyEmail email={person.email} />
+            <a href={gmail} {...external}>
+              Open in Gmail
+            </a>
+          </div>
           <div className="contact-links">
             <a href={person.github} {...external}>
               GitHub

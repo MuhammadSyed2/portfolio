@@ -86,6 +86,7 @@ export const endpoints: Endpoint[] = [
 
 export type Product = {
   name: string
+  headline: string
   href: string
   hrefLabel: string
   summary: string
@@ -95,6 +96,7 @@ export type Product = {
 export const products: Product[] = [
   {
     name: 'StocksTrend',
+    headline: 'Market analysis, watchlists and portfolios on a large financial data set',
     href: 'https://stockstrend.com',
     hrefLabel: 'stockstrend.com',
     summary:
@@ -103,6 +105,7 @@ export const products: Product[] = [
   },
   {
     name: 'Veara',
+    headline: 'Design custom apparel from text and images, then order in bulk',
     href: 'https://veara.ai',
     hrefLabel: 'veara.ai',
     summary:
@@ -111,6 +114,7 @@ export const products: Product[] = [
   },
   {
     name: '1ClickToShop',
+    headline: 'Shop Amazon and other stores from regions they do not ship to',
     href: 'https://play.google.com/store/apps/details?id=com.oneclick.shop',
     hrefLabel: 'Google Play',
     summary:
@@ -119,55 +123,67 @@ export const products: Product[] = [
   },
 ]
 
-export const clientWork: { name: string; where: string; summary: string }[] = [
+export type ClientProject = { name: string; headline: string; where: string; summary: string }
+
+export const clientWork: ClientProject[] = [
   {
     name: 'Remote Access platform',
+    headline: 'Secure remote control of devices',
     where: 'Softvence Agency',
     summary:
       'Remote access to devices with role, permission and security management, built on Docker, Signal, Relay and a web client.',
   },
   {
     name: 'Ad Account Management',
+    headline: 'Ad spend tracking for teams',
     where: 'Softvence Agency',
     summary: 'User and role management with spend analysis graphs.',
   },
   {
     name: 'Service Provider platform',
+    headline: 'A marketplace for service providers',
     where: 'Softvence Agency',
     summary: 'Wallet, orders, bidding, support and chat in one platform.',
   },
   {
     name: 'WooCommerce and Dokan store',
+    headline: 'Multi-vendor e-commerce',
     where: 'Softvence Agency',
     summary: 'An e-commerce application built on the WooCommerce and Dokan APIs.',
   },
   {
     name: 'MyBilling',
+    headline: 'ERP for internet service providers',
     where: 'Nextech Limited',
     summary: 'An ERP system for internet service providers.',
   },
   {
     name: 'AITSO software',
+    headline: 'Software for the Army IT Support Organization',
     where: 'Nextech Limited',
     summary: 'Developed and upgraded software for the Army IT Support Organization.',
   },
   {
     name: 'MAUCBD CMS',
+    headline: 'Content management for an education group',
     where: 'Nextech Limited',
     summary: 'A content management system for a large educational organisation, built on my own.',
   },
   {
     name: 'Recruitment Management System',
+    headline: 'Hiring workflows for a pharmaceutical company',
     where: 'Nextech Limited',
     summary: 'Built for Ibn Sina Pharmaceuticals Ltd.',
   },
   {
     name: 'GenWebBuilder',
+    headline: 'A generative-AI no-code website builder',
     where: 'Contract',
     summary: 'The React front end for a generative-AI no-code website platform.',
   },
   {
     name: 'Pusti ERP',
+    headline: 'Enterprise resource planning for TK Group',
     where: 'TechKnowGram Limited',
     summary:
       'Spring Boot services for TK Group across monolith and microservice setups, with Oracle SQL and server configuration.',
@@ -179,23 +195,31 @@ export type Job = {
   company: string
   period: string
   points: string[]
+  /** Hide the project tags when the bullet points already describe those projects. */
+  hideProjectTags?: boolean
 }
 
 export const jobs: Job[] = [
   {
     role: 'Backend Developer',
     company: 'Softvence Agency',
+    hideProjectTags: true,
     period: 'Dec 2025 to now',
     points: [
-      'Work with international clients: gather requirements and manage delivery.',
-      'Optimise databases and queries; run live servers and deployments with CI/CD and FTP.',
-      'Integrated Stripe, Airwallex, Fanbasis and Waafipay payment gateways.',
+      'Work with international clients on global projects, from gathering requirements to managing delivery.',
+      'Optimise databases and queries; manage live servers and deployments with CI/CD and FTP.',
+      'Built a Remote Access platform for devices with role, permission and security management, using Docker, Signal, Relay and a web client.',
+      'Built an Ad Account Management system with user and role management and spend analysis graphs.',
+      'Built a Service Provider platform with wallet, orders, bidding, support and chat.',
+      'Developed an e-commerce application on the WooCommerce and Dokan APIs.',
+      'Integrated global payment gateways: Stripe, Airwallex, Fanbasis and Waafipay.',
       'Debug and resolve issues on live production servers.',
     ],
   },
   {
     role: 'Software Developer (Full Stack)',
     company: 'Nextech Limited',
+    hideProjectTags: true,
     period: 'Jan 2024 to Nov 2025',
     points: [
       'Led multiple projects at the same time as lead developer.',
@@ -206,6 +230,7 @@ export const jobs: Job[] = [
   {
     role: 'Front-end Developer (Contract)',
     company: 'GenWebBuilder',
+    hideProjectTags: true,
     period: 'Dec 2023 to Jan 2024',
     points: [
       'Built a generative-AI no-code platform in ReactJS.',
@@ -215,6 +240,7 @@ export const jobs: Job[] = [
   {
     role: 'Software Developer Intern',
     company: 'TechKnowGram Limited',
+    hideProjectTags: true,
     period: 'Oct 2023 to Dec 2023',
     points: [
       'Worked on Pusti ERP with Java Spring Boot across monolithic and microservice architectures.',
@@ -223,11 +249,44 @@ export const jobs: Job[] = [
   },
 ]
 
-export const stack: { label: string; items: string[] }[] = [
-  { label: 'Languages and frameworks', items: ['Java', 'Spring Boot', 'Laravel', 'PHP', 'JavaScript', 'ReactJS', 'React Native', 'SPSS', 'R'] },
-  { label: 'Databases', items: ['MySQL', 'PostgreSQL', 'Supabase', 'Oracle DB', 'SQLite'] },
-  { label: 'APIs and architecture', items: ['RESTful APIs', 'Microservices', 'OAuth/JWT', 'WebSockets', 'WooCommerce', 'Dokan'] },
-  { label: 'Payments', items: ['Stripe', 'Airwallex', 'Fanbasis', 'Waafipay'] },
-  { label: 'Tools and platforms', items: ['Docker', 'CI/CD', 'Git', 'Nginx', 'Jira', 'Trello', 'Postman', 'ApiDog'] },
-  { label: 'Management', items: ['Server management', 'Team management', 'Project management'] },
+export type StackGroup = { label: string; note: string; items: string[] }
+
+export const stack: StackGroup[] = [
+  { label: 'Backend', note: 'Where I spend most of my time', items: ['Laravel', 'PHP', 'Java', 'Spring Boot', 'RESTful APIs', 'Microservices', 'WebSockets', 'OAuth/JWT'] },
+  { label: 'Frontend and mobile', note: 'Web and app interfaces', items: ['ReactJS', 'React Native', 'JavaScript'] },
+  { label: 'Databases', note: 'Design, tuning and query optimisation', items: ['MySQL', 'PostgreSQL', 'Supabase', 'Oracle DB', 'SQLite'] },
+  { label: 'Payments and commerce', note: 'Gateways integrated in production', items: ['Stripe', 'Airwallex', 'Fanbasis', 'Waafipay', 'WooCommerce', 'Dokan'] },
+  { label: 'DevOps and tools', note: 'Shipping and running live servers', items: ['Docker', 'CI/CD', 'Nginx', 'Git', 'Postman', 'ApiDog', 'Jira', 'Trello'] },
+  { label: 'Data and leadership', note: 'Beyond the code', items: ['SPSS', 'R', 'Server management', 'Team management', 'Project management'] },
+]
+
+export type Education = {
+  degree: string
+  school: string
+  period: string
+  details?: string[]
+}
+
+// Add more entries here; the Education section renders them in order.
+export const education: Education[] = [
+  {
+    degree: 'B.Sc. in Computer Science & Engineering',
+    school: 'North South University',
+    period: 'Graduated 2022',
+  },
+]
+
+export const certifications: { name: string; issuer: string }[] = [
+  {
+    name: 'Data Analytics Hire and Train Program',
+    issuer: 'ADN Diginet Limited and University of Dhaka (IIT)',
+  },
+]
+
+export const publications: { title: string; venue: string; href: string }[] = [
+  {
+    title: 'Detecting Urbanization Changes in Tangail District Using Machine Learning and Remote Sensing',
+    venue: 'Springer',
+    href: 'https://link.springer.com/chapter/10.1007/978-981-16-6369-7_21',
+  },
 ]
